@@ -1,0 +1,17 @@
+[tool.black]
+line-length = 80
+
+[tool.isort]
+profile = "black"
+include_trailing_comma = true
+line_length = 80
+multi_line_output = 3
+combine_as_imports = true
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+addopts = "-vvvv --cov=cdk_email_analysis --cov-report=term-missing"
+junit_family = "xunit2"
+
+[tool.mypy]
+ignore_missing_imports = true

@@ -1,0 +1,4 @@
+anthropic[bedrock]
+aws-lambda-powertools[tracer]
+boto3
+Jinja2

@@ -1,0 +1,28 @@
+以下の文章リストから料金や契約内容に関するものを抽出してください。
+出力は JSON のみで構成し、で以下の仕様に従ってください。
+見つからなかった場合でも JSON 以外の文字は含めないでください。
+
+出力フォーマット:
+```
+[
+  {
+    "subject": "対象の Subject",
+    "date": "対象の Date",
+    "from": "対象の From",
+    "summary": "対象の Body の要約"
+  },
+  ...
+]
+```
+
+
+抽出対象の文章リスト:
+{% for email in emails %}
+####email####
+Subject: {{ email.subject }}
+Date: {{ email.date.isoformat() }}
+From: {{ email.from_ }}
+Body:
+{{ email.body }}
+
+{% endfor %}

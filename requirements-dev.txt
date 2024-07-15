@@ -1,1 +1,11 @@
+-r requirements.txt
+-r src/lambda/analyze_emails/requirements.txt
+-r src/lambda/slack_notification/requirements.txt
+
+black
+boto3-stubs[bedrock,s3,sns]
+flake8
+isort
+mypy
 pytest==6.2.5
+types-requests
