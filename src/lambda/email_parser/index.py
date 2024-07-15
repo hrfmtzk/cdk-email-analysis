@@ -11,9 +11,11 @@ from pathlib import Path
 from zoneinfo import ZoneInfo
 
 import boto3
+import sentry_sdk
 from aws_lambda_powertools import Logger, Tracer
 from aws_lambda_powertools.utilities.data_classes import SESEvent, event_source
 from aws_lambda_powertools.utilities.typing import LambdaContext
+from sentry_sdk.integrations.aws_lambda import AwsLambdaIntegration
 
 logger = Logger()
 tracer = Tracer()
@@ -22,6 +24,14 @@ bucket_name = os.environ["BUCKET_NAME"]
 raw_email_path = os.environ["RAW_EMAIL_PATH"]
 json_email_path = os.environ["JSON_EMAIL_PATH"]
 timezone = os.environ["TIMEZONE"]
+sentry_dsn = os.environ["SENTRY_DSN"] or None
+
+sentry_sdk.init(
+    dsn=sentry_dsn,
+    integrations=[
+        AwsLambdaIntegration(timeout_warning=True),
+    ],
+)
 
 
 s3 = boto3.client("s3")

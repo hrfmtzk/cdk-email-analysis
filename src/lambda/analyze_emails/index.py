@@ -7,11 +7,13 @@ from typing import Any
 from zoneinfo import ZoneInfo
 
 import boto3
+import sentry_sdk
 from anthropic import AnthropicBedrock
 from anthropic.types import TextBlock
 from aws_lambda_powertools import Logger, Tracer
 from aws_lambda_powertools.utilities.typing import LambdaContext
 from jinja2 import Template
+from sentry_sdk.integrations.aws_lambda import AwsLambdaIntegration
 
 logger = Logger()
 tracer = Tracer()
@@ -20,6 +22,14 @@ bucket_name = os.environ["BUCKET_NAME"]
 json_email_path = os.environ["JSON_EMAIL_PATH"]
 timezone = os.environ["TIMEZONE"]
 topic_arn = os.environ["TOPIC_ARN"]
+sentry_dsn = os.environ["SENTRY_DSN"] or None
+
+sentry_sdk.init(
+    dsn=sentry_dsn,
+    integrations=[
+        AwsLambdaIntegration(timeout_warning=True),
+    ],
+)
 
 s3 = boto3.client("s3")
 

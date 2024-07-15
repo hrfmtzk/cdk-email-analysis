@@ -1,2 +1,3 @@
 aws-lambda-powertools[tracer]
 boto3
+sentry-sdk

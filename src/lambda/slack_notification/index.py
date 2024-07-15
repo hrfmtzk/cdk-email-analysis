@@ -4,15 +4,25 @@ from dataclasses import dataclass, field
 from datetime import datetime
 
 import requests
+import sentry_sdk
 from aws_lambda_powertools import Logger, Tracer
 from aws_lambda_powertools.utilities.data_classes import SNSEvent, event_source
 from aws_lambda_powertools.utilities.typing import LambdaContext
+from sentry_sdk.integrations.aws_lambda import AwsLambdaIntegration
 
 logger = Logger()
 tracer = Tracer()
 
 
 slack_webhook_url = os.environ["SLACK_WEBHOOK_URL"]
+sentry_dsn = os.environ["SENTRY_DSN"] or None
+
+sentry_sdk.init(
+    dsn=sentry_dsn,
+    integrations=[
+        AwsLambdaIntegration(timeout_warning=True),
+    ],
+)
 
 
 @dataclass
